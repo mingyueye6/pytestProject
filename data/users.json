@@ -1,0 +1,25 @@
+{
+  "user_list": [
+    [
+      {
+        "username": "test001",
+        "password": "ceshi001"
+      },
+      200
+    ],
+    [
+      {
+        "username": "test002",
+        "password": "ceshi002"
+      },
+      200
+    ],
+    [
+      {
+        "username": "test003",
+        "password": "ceshi003"
+      },
+      200
+    ]
+  ]
+}
