@@ -7,12 +7,15 @@ from tools.operation_excel import ReadExcel
 from tools.setting import *
 from tools.send_request import SendRequest
 from tools.operation_json import OperetionJson
+import allure
 
 
 class TestCase():
-    cases = ReadExcel("../data/test_case.xlsx", "case").get_all_values()
+    casexlsx_path = os.path.join(project_path, 'data/test_case.xlsx')
+    cases = ReadExcel(casexlsx_path, "case").get_all_values()
     send_rqeuest = SendRequest()
 
+    # @allure.feature("测试")
     @pytest.mark.parametrize("case", cases)
     def test_request(self, case):
         if case[is_run_col] == "yes":
@@ -20,7 +23,8 @@ class TestCase():
             # 判断是否有依赖数据
             rely_row = case[rely_row_col]
             if rely_row:
-                rely_data = OperetionJson().read_data("../data/response_datas.json", rely_row)
+                response_path = os.path.join(project_path, 'data/response_datas.json')
+                rely_data = OperetionJson().read_data(response_path, rely_row)
                 key = case[rely_field_col]
                 value = jsonpath.jsonpath(rely_data, case[rely_data_col])[0]
             url = case[request_url_col]
@@ -40,7 +44,8 @@ class TestCase():
             response_type = case[response_type_col]
             res_data = self.send_rqeuest.send_request(url, method, data, header, response_type)
             # 保存响应数据
-            OperetionJson().write_data("../data/response_datas.json", row, res_data)
+            response_path = os.path.join(project_path, 'data/response_datas.json')
+            OperetionJson().write_data(response_path, row, res_data)
             # 判断是否有断言
             expected_result = case[expected_result_col]
             run_result = "pass"
@@ -53,6 +58,7 @@ class TestCase():
                     res_value = jsonpath.jsonpath(data, key)[0]
                     if value != res_value:
                         run_result = "fail"
-            ReadExcel("../data/test_case.xlsx", "case").write_value(row + 1, run_result_col, run_result)
+            test_case_path = os.path.join(project_path, 'data/test_case.xlsx')
+            ReadExcel(test_case_path, "case").write_value(row + 1, run_result_col, run_result)
             if run_result == "fail":
                 pass

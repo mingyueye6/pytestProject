@@ -27,3 +27,6 @@ response_type_col = 12
 expected_result_col = 13
 # 执行结果
 run_result_col = 14
+
+import os
+project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
