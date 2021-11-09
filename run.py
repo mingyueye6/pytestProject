@@ -11,4 +11,4 @@ if __name__ == '__main__':
     if os.path.exists('./report2'):
         shutil.rmtree('./report2')
     pytest.main(['--alluredir','./report2/xml'])
-    os.system('allure generate ./report2/xml -o ./report2/result')
+    os.system('allure genera te ./report2/xml -o ./report2/result')
