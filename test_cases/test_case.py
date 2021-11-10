@@ -15,6 +15,7 @@ class TestCase():
     cases = ReadExcel(casexlsx_path, "case").get_all_values()
     send_rqeuest = SendRequest()
 
+    # @pytest.mark.demo
     # @allure.feature("测试")
     @pytest.mark.parametrize("case", cases)
     def test_request(self, case):
